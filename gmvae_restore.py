@@ -1,19 +1,9 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Wed May  9 14:59:42 2018
+Created on Fri Dec 28 16:56:56 2018
 
-Restoration simulation for full image, TV or L2
-the image are cropped in to slices
-
-@author: syou
-"""
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 15 13:42:39 2018
-
-Restoration, TV or L2
+Restoration with GMVAE
 
 @author: syou
 """
