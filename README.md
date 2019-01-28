@@ -1,4 +1,4 @@
-# Implementation for 'Unsupervised Lesion Detection via Image Restoration with a Normative-Prior'
+# Implementation for 'Unsupervised Lesion Detection via Image Restoration with a Normative Prior'
 (https://openreview.net/forum?id=S1xg4W-leV) by Suhang You, Kerem Tezcan, Xiaoran Chen, Ender Konukoglu
 
 # Abstract
@@ -16,8 +16,12 @@ pandas
 
 # Brief on codes
 vars_layers.py contains variable/tensor definition and basic layer construction
+
 vae_graph.py contains main structure of vanilla VAE and GMVAE
-vae_training.py and gmvae_training.py are codes for training session. The parameter setting of can be changed accordingly
-vae_restore.py and gmvae_restore.py are codes for restoration process
+
+vae_training.py and gmvae_training.py are codes for training session. The parameter in setting can be changed accordingly such as number of clusters, latent dimensions.
+
+vae_restore.py and gmvae_restore.py are codes for restoration process. The parameter in setting can be changed accordingly such as restoration steps, weight on TV term.
+
 # Acknowledgement
 The tensorflow version of GMVAE implementation is inspired by Nat Dilokthanakul https://github.com/Nat-D/GMVAE
