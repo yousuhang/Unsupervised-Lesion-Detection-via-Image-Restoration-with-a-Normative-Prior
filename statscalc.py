@@ -8,28 +8,10 @@ Output the TP TN FP FN for a range of threshold covering all intensity differenc
 @author: syou
 """
 import numpy as np
-from utils import roc_score2, dsc
+from utils import roc_score2, dsc, STAT
 import h5py
 from utils import num2str
 import os
-
-def STAT(thresholds, dif_image, label):
-    TP = []
-    TN = []
-    FP = []
-    FN = []
-    for threshold in thresholds:
-#        positive += [np.sum(dif_image > threshold)]
-#    #    negative = dif_image.shape[0] - positive
-#        negative += [np.sum(dif_image <= threshold)]
-        TP += [np.sum((dif_image > threshold)*label)]
-        TN += [np.sum((dif_image <= threshold)*(1-label))]
-        FP += [np.sum((dif_image > threshold)*(1-label))]
-        FN += [np.sum((dif_image <= threshold)*label)]
-        TFPN = np.stack((np.array(TP),np.array(TN),np.array(FP),np.array(FN)), axis = 0)
-    return TFPN
-
-
 
 model = 'GMVAE' # or 'VanillaVAE'
 
