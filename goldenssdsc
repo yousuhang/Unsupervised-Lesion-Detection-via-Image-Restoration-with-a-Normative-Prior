@@ -3,7 +3,7 @@
 """
 Created on Sat Dec  8 21:26:12 2018
 
-Find thresholds according to 1, 5, 10 percent of FP and output the DSCs
+Find thresholds according to 1, 5, 10 percent of FP and output TP TN FP FN
 
 @author: syou
 """
