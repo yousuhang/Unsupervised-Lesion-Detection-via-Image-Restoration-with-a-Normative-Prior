@@ -12,64 +12,8 @@ import sys
 sys.path.append("/scratch_net/biwidl211_second/syou/thesis/extension/")
 #from utils import roc_score2, dsc
 import h5py
-from utils import num2str
+from utils import num2str, determine_threshold, gss, STAT
 import os
-'''
-Use the following scripts, just call determine_threshold, 
-phi is your images, 
-fprate is your predefined false positive rate, 1% or 5%
-, and it will return you a threshold.
-'''
-def determine_threshold(phi, fprate):
-    phi = np.asarray(phi)
-    # determines the lowest threshold on Phi that provides at max FP rate on the Phi values.
-    # all the samples need to be controls for this function
-    nums = len(phi)
-    #numf = phi.shape[1]
-    def func(threshold):
-        phi_ = phi > threshold
-        fprate_ = np.sum(phi_) / np.float(nums)
-        return np.sqrt((fprate - fprate_) ** 2)
-    return gss(func, phi.min(), phi.mean(), phi.max(), tau=1e-8)
-
-
-def gss(f, a, b, c, tau=1e-3):
-    '''
-    Python recursive version of Golden Section Search algorithm
-
-    tau is the tolerance for the minimal value of function f
-    b is any number between the interval a and c
-    '''
-    goldenRatio = (1 + 5 ** 0.5) / 2
-    if (c - b > b - a):
-        x = b + (2 - goldenRatio) * (c - b)
-    else:
-        x = b - (2 - goldenRatio) * (b - a)
-    if (abs(c - a) < tau * (abs(b) + abs(x))): return (c + a) / 2
-    if (f(x) < f(b)):
-        if (c - b > b - a):
-            return gss(f, b, x, c, tau)
-        return gss(f, a, x, b, tau)
-    else:
-        if (c - b > b - a):
-            return gss(f, a, b, x, tau)
-        return gss(f, x, b, c, tau)
-    
-def STAT(thresholds, dif_image, label):
-    TP = []
-    TN = []
-    FP = []
-    FN = []
-    for threshold in thresholds:
-#        positive += [np.sum(dif_image > threshold)]
-#    #    negative = dif_image.shape[0] - positive
-#        negative += [np.sum(dif_image <= threshold)]
-        TP += [np.sum((dif_image > threshold)*label)]
-        TN += [np.sum((dif_image <= threshold)*(1-label))]
-        FP += [np.sum((dif_image > threshold)*(1-label))]
-        FN += [np.sum((dif_image <= threshold)*label)]
-        TFPN = np.stack((np.array(TP),np.array(TN),np.array(FP),np.array(FN)), axis = 0)
-    return TFPN
     
 batchsize = 68 
 imageshape = [158,198]
