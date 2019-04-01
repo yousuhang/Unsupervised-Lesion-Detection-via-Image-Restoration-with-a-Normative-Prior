@@ -66,7 +66,4 @@ savepath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/ab
 
 df2.to_excel(writer2)
 writer2.save()        
-np.save(savepath+ HE + mode+'asdsc.npy', np.array(ASDSC)) 
-np.save(savepath+ HE + mode+'madsc.npy', np.array(MADSC)) 
-np.save(savepath+ HE + mode+'sadsc.npy', np.array(SADSC)) 
-#        
+        
