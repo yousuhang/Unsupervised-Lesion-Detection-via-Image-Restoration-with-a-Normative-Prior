@@ -3,53 +3,59 @@
 """
 Created on Mon Sep 10 17:12:35 2018
 
-Combine .npy restoration files to hdf5
+Combine .npy restoration files from test dataset to hdf5
 
 @author: syou
 """
 
+import os
 import numpy as np
 import h5py
 from utils import num2str
-restoredata = 'CamCANT2' # 'CamCANT2' is the training data
-						 # 'BraTSHGG' and 'BraTSLGG' are test data
+datas = ['LGG','HGG']
 
-if restoredata  == 'BraTSHGG':
-    nslice = 28200
-	batchsize = 60
-	batch = nslice/batchsize + 1
-elif restoredata  == 'BraTSLGG':
-    nslice = 10020
-	batchsize = 60
-	batch = nslice/batchsize + 1
-elif restoredata == 'CamCANT2'
-	batch = 97
-rhos = np.array([1.8,2.2,2.4])# the lambda chosen
-for rho in rhos:
-    print 'make data for rho', rho
-    savepath = '/scratch_net/biwidl104/syou/thesis/extension/GMVAE/' + restoredata  +'/Datasliceuhe0.06FsTVRestoration' + num2str(1) +'/'+ str(rho)+'/' # directory of the restored images
-																																					 # saved as .npy files
-    h5f_test = h5py.File( savepath + 'restored_images.hdf5', 'w')
-    for i in range(batch):
-        restored_images = np.load(savepath + 'restored_images' + str(i) + '.npy')[:,:,:,-1]
-        if i == 0:
-            h5f_test.create_dataset('Restore', data=restored_images, maxshape=(None, restored_images.shape[1], restored_images.shape[2]))
-        else:
-            h5f_test['Restore'].resize((h5f_test['Restore'].shape[0] + restored_images.shape[0]), axis = 0)
-            h5f_test['Restore'][-restored_images.shape[0]:] = restored_images   
-	if restoredata == 'BraTSHGG'	
-		with h5py.File( savepath + '/restored_images.hdf5', 'a') as h5f_test:
-			
-			restored_images = np.load(savepath + '/restored_images470.npy')[:,:,:,-1]
-			h5f_test['Restore'].resize((h5f_test['Restore'].shape[0] + restored_images.shape[0]), axis = 0)
-			h5f_test['Restore'][-restored_images.shape[0]:] = restored_images    
-		 
-			print h5f_test['Restore'].shape
-	if restoredata == 'BraTSHGG'	
-		with h5py.File( savepath + '/restored_images.hdf5', 'a') as h5f_test:
-			
-			restored_images = np.load(savepath + '/restored_images170.npy')[1,:,:,-1]
-			h5f_test['Restore'].resize((h5f_test['Restore'].shape[0] + restored_images.shape[0]), axis = 0)
-			h5f_test['Restore'][-restored_images.shape[0]:] = restored_images    
-		 
-			print h5f_test['Restore'].shape
+sequential_number = 26
+model = 'GMVAE' # or 'VanillaVAE
+def dtop(data): 
+    if data == 'HGG':
+        nslice = 28200
+        batchsize = 60
+        head = 'BraTS'
+    elif data == 'LGG':
+        nslice = 10020
+        batchsize = 60
+        head = 'BraTS'
+    return nslice, batchsize, head
+rhos = np.arange(20)/5.0
+for data in datas:
+    nslice, batchsize, head = dtop(data)
+    for rho in rhos:
+        print 'make data for rho', rho
+        for k in range(1):
+#            print 'make data for step', k*50+49
+            datapath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/' + head + data +'/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ str(rho)+'/'
+            
+            savepath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/' + head + data +'/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)+'/'
+            if not os.path.exists(savepath):
+                os.makedirs(savepath)            
+            h5f_test = h5py.File( savepath + 'restored_images.hdf5', 'w')
+            for i in range(nslice/batchsize + 1  ):
+                
+                restored_images = np.load(datapath + 'restored_images' + str(i) + '.npy')[:,:,:,k]
+                print 'batch max intensity for i = ', i, ' is ', np.max(restored_images)
+                if i == 0:
+                    h5f_test.create_dataset('Restore', data=restored_images, maxshape=(None, restored_images.shape[1], restored_images.shape[2]))
+                elif i < nslice/batchsize:
+              
+                    h5f_test['Restore'].resize((h5f_test['Restore'].shape[0] + restored_images.shape[0]), axis = 0)
+                    h5f_test['Restore'][-restored_images.shape[0]:] = restored_images 
+                else :
+                    if data == 'HGG':
+                        restored_images = np.load(datapath + '/restored_images470.npy')[:,:,:,k]
+                    elif data == 'LGG':
+                        restored_images = np.load(datapath + '/restored_images167.npy')[1:,:,:,k]
+                    h5f_test['Restore'].resize((h5f_test['Restore'].shape[0] + restored_images.shape[0]), axis = 0)
+                    h5f_test['Restore'][-restored_images.shape[0]:] = restored_images    
+
+                if i%10 == 0 or i == nslice/batchsize:
+                    print h5f_test['Restore'].shape
