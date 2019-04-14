@@ -11,7 +11,7 @@ Calcultate AUC and DSC_AUC
 import numpy as np
 from utils import num2str, auc
 import sys
-sys.path.append('/scratch_net/biwidl211_second/syou/thesis/extension/')
+sys.path.append('...')% the working folder
 import pandas as pd
 import os
      
@@ -37,7 +37,7 @@ FPR = []
 FNR = []
 
 for rho in rhos:
-	statpath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/abs3statshe0.06FsTVRestoration', num2str(sequential_number),"{0:.1f}".format(rho))
+	statpath = os.path.join('% the working folder' + model + '/abs3statshe0.06FsTVRestoration', num2str(sequential_number),"{0:.1f}".format(rho))
 	LGsta = np.load(statpath + '/LGsta.npy')
 	HGsta = np.load(statpath + '/HGsta.npy')
 	sta  = np.concatenate((LGsta,HGsta), axis = 0)
@@ -75,7 +75,7 @@ data = np.concatenate((np.array(rhos).reshape(1,-1),np.array(PAUCA).reshape(1,-1
 						))
 df = pd.DataFrame(data)
 df['@step'+str(499)] = pd.Series(name, index=df.index)
-savepath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/abs3stats/'
+savepath = '% the working folder' + model + '/abs3stats/'
 writer = pd.ExcelWriter(savepath + 'he0.06FsTVRestoration'+ num2str(sequential_number)+'aucs.xlsx')
 df.to_excel(writer)
 writer.save()    
