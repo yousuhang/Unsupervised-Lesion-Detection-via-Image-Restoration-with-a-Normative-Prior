@@ -18,18 +18,18 @@ model = 'GMVAE' # or 'VanillaVAE'
 sequential_number = 1
 rhos = np.arange(20)/5.0
 
-LGdata = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSLGG_datan.hdf5', 'r')
-LGlabel = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSLGG_label.hdf5', 'r')
-HGdata = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSHGG_datan.hdf5', 'r')
-HGlabel = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSHGG_label.hdf5', 'r')
-LGGindex = np.load('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSLGGindeces.npy')
-HGGindex = np.load('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSHGGindeces.npy')
+LGdata = h5py.File('% the data folder/BraTSLGG_data.hdf5', 'r') % load BRATSLGG dataset
+LGlabel = h5py.File('% the data folder/BraTSLGG_label.hdf5', 'r') % and the groundtrue
+HGdata = h5py.File('% the data folder/BraTSHGG_data.hdf5', 'r') % load BRATSLGG dataset
+HGlabel = h5py.File('% the data folder/BraTSHGG_label.hdf5', 'r') % and the groundtrue
+LGGindex = np.load('% the data folder/BraTSLGGindeces.npy') % number of each brain slices which are not pure background for BRATSLGG
+HGGindex = np.load('% the data folder/BraTSHGGindeces.npy') % number of each brain slices which are not pure background for BRATSHGG
 
 for rho in rhos:
     for k in range(1):
-        LGGpath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/BraTSLGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
-        HGGpath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/BraTSHGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
-        savepath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/abs3statshe0.06FsTVRestoration'  + num2str(sequential_number), "{0:.1f}".format(rho))
+        LGGpath = '% the working folder' + model + '/BraTSLGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
+        HGGpath = '% the working folder' + model + '/BraTSHGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
+        savepath = os.path.join('% the working folder' + model + '/abs3statshe0.06FsTVRestoration'  + num2str(sequential_number), "{0:.1f}".format(rho))
         if not os.path.exists(savepath):
             os.makedirs(savepath)
         print 'calculating statistics for rho = ', rho
