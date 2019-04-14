@@ -11,7 +11,7 @@ Calculate DSCs for 1, 5, 10 percent fpr
 import numpy as np
 from utils import num2str
 import sys
-sys.path.append('/scratch_net/biwidl211_second/syou/thesis/extension/')
+sys.path.append('...') % working folder
 import pandas as pd
 import os      
 
@@ -26,7 +26,7 @@ ASDSC = []
 MADSC = []
 SADSC = []
 for rho in rhos:		
-	    statpath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/abs3statshe0.06FsTVRestoration', num2str(sequential_number),"{0:.1f}".format(rho))
+	    statpath = os.path.join('%the working folder' + model + '/abs3statshe0.06FsTVRestoration', num2str(sequential_number),"{0:.1f}".format(rho))
 
 	    HGstag = np.load(statpath + '/HGstag.npy')
 	    LGstag = np.load(statpath + '/LGstag.npy')
@@ -61,7 +61,7 @@ data2 = np.concatenate((np.array(rhos).reshape(1,-1),MADSC.T, SADSC.T
 df2 = pd.DataFrame(data2)
 df2['FPR percent']  = pd.Series(name2, index=df2.index)
 
-savepath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/abs3stats/'
+savepath = '%working folder' + model + '/abs3stats/'
 	writer2 = pd.ExcelWriter(savepath + 'he0.06FsTVRestoration'+ num2str(sequential_number)+'fprdscs5.xlsx')
 
 df2.to_excel(writer2)
