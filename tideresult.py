@@ -33,9 +33,9 @@ for data in datas:
         print 'make data for rho', rho
         for k in range(1):
 #            print 'make data for step', k*50+49
-            datapath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/' + head + data +'/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ str(rho)+'/'
+            datapath = '% the working folder' + model + '/' + head + data +'/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ str(rho)+'/'
             
-            savepath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/' + head + data +'/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)+'/'
+            savepath = '% the working folder' + model + '/' + head + data +'/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)+'/'
             if not os.path.exists(savepath):
                 os.makedirs(savepath)            
             h5f_test = h5py.File( savepath + 'restored_images.hdf5', 'w')
