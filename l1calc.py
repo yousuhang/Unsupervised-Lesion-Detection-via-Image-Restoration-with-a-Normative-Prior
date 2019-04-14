@@ -9,7 +9,7 @@ Calculate Corresponded L1 for chosen lambda
 """
 import numpy as np
 import sys
-sys.path.append("/scratch_net/biwidl211_second/syou/thesis/extension/") # include this file
+sys.path.append("...") % the working folder
 #from utils import roc_score2, dsc
 import h5py
 from utils import num2str
@@ -31,13 +31,13 @@ sess = tf.Session()
 
 rhos = np.arange(20)/5.0# The lambda chosen
 
-camdata = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/CamCANT2_data.hdf5','r') # Directory of the training data
+camdata = h5py.File('% the data folder/CamCANT2_data.hdf5','r') # Directory of the training data
 
 L1S = []
 
 for rho in rhos:
-    respath = '/scratch_net/biwidl211_second/syou/thesis/extension/GMVAE/CamCANT2/Dataslicehe0.06' + mode + num2str(sequential_number) +'/'+ str(rho) # Directory of the restored training images
-    savepath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/GMVAE/camstats', mode  + num2str(sequential_number), str(rho)) # Directory of L1s to save
+    respath = '% the working folder/GMVAE/CamCANT2/Dataslicehe0.06' + mode + num2str(sequential_number) +'/'+ str(rho) # Directory of the restored training images
+    savepath = os.path.join('% the working folder/GMVAE/camstats', mode  + num2str(sequential_number), str(rho)) # Directory of L1s to save
     if not os.path.exists(savepath):
         os.makedirs(savepath)
     for j in range(1): 
