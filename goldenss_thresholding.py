@@ -9,7 +9,7 @@ Find thresholds according to 1, 5, 10 percent of FP and output TP TN FP FN
 """
 import numpy as np
 import sys
-sys.path.append("/scratch_net/biwidl211_second/syou/thesis/extension/")
+sys.path.append("...") % the working folder
 #from utils import roc_score2, dsc
 import h5py
 from utils import num2str, determine_threshold, gss, STAT
@@ -23,14 +23,14 @@ sequential_number = 1
 model = 'GMVAE' # or 'VanillaVAE
 rhos = np.arange(20)/5.0
 
-camdata = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/CamCANT2_data.hdf5','r')
+camdata = h5py.File('% the data folder/CamCANT2_data.hdf5','r') % loadling camcant2 dataset
 fprs = np.array([0.01,0.05,0.10])
 
 # find thresholds from restorations of training data
 for rho in rhos:
     thresholds = []
-    respath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/CamCANT2/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ str(rho)
-    savepath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/camstatsFsTVRestoration',num2str(sequential_number), str(rho))
+    respath = ' % the working folder' + model + '/CamCANT2/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ str(rho)
+    savepath = os.path.join(' % the working folder' + model + '/camstatsFsTVRestoration',num2str(sequential_number), str(rho))
     if not os.path.exists(savepath):
         os.makedirs(savepath)
     for j in range(1): 
@@ -53,10 +53,10 @@ for rho in rhos:
 
 # Calculate DSCs for restorations of test data
 
-LGdata = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSLGG_datan.hdf5', 'r')
-LGlabel = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSLGG_label.hdf5', 'r')
-HGdata = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSHGG_datan.hdf5', 'r')
-HGlabel = h5py.File('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSHGG_label.hdf5', 'r')
+LGdata = h5py.File('%the data folder/BraTSLGG_data.hdf5', 'r') % load BRATSLGG dataset
+LGlabel = h5py.File('%the data folder/BraTSLGG_label.hdf5', 'r') % The ground truth
+HGdata = h5py.File('%the data folder/BraTSHGG_data.hdf5', 'r') % load BRATSHGG dataset
+HGlabel = h5py.File('%the data folder/BraTSHGG_label.hdf5', 'r') % The ground truth
 
 LGGindex = np.load('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSLGGindeces.npy') # Index of test data after leaving out pure background slices.
 HGGindex = np.load('/scratch_net/biwidl211_second/syou/thesis/extension/data/BraTSHGGindeces.npy')
@@ -65,10 +65,10 @@ HGGindex = np.load('/scratch_net/biwidl211_second/syou/thesis/extension/data/Bra
 for rho in rhos:
     for k in range(1):
         
-        LGGpath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/BraTSLGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
-        HGGpath = '/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/BraTSHGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
-        savepath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/abs3statshe0.06FsTVRestoration'  + num2str(sequential_number), "{0:.1f}".format(rho))
-        threshpath = os.path.join('/scratch_net/biwidl211_second/syou/thesis/extension/' + model + '/camstatsFsTVRestoration', num2str(sequential_number), str(rho))
+        LGGpath = '% the working folder' + model + '/BraTSLGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
+        HGGpath = '% the working folder' + model + '/BraTSHGG/Dataslicehe0.06FsTVRestoration' + num2str(sequential_number) +'/'+ "{0:.1f}".format(rho)
+        savepath = os.path.join('% the working folder' + model + '/abs3statshe0.06FsTVRestoration'  + num2str(sequential_number), "{0:.1f}".format(rho))
+        threshpath = os.path.join('% the working folder' + model + '/camstatsFsTVRestoration', num2str(sequential_number), str(rho))
         if not os.path.exists(savepath):
             os.makedirs(savepath)
         print 'calculating statistics for rho = ', rho
